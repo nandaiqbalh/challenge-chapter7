@@ -1,4 +1,4 @@
-package com.nandaiqbalh.themovielisting.presentation.ui.home
+package com.nandaiqbalh.themovielisting.presentation.ui.movie.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

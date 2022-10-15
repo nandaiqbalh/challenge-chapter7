@@ -1,5 +1,6 @@
-package com.nandaiqbalh.themovielisting.presentation.ui.home.adapter
+package com.nandaiqbalh.themovielisting.presentation.ui.movie.home.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -9,8 +10,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nandaiqbalh.themovielisting.data.network.model.popular.PopularItem
 import com.nandaiqbalh.themovielisting.databinding.ItemPopularMovieBinding
+import com.nandaiqbalh.themovielisting.presentation.ui.movie.detail.DetailFragment
 
 class PopularAdapter: RecyclerView.Adapter<PopularAdapter.HomeViewHolder>() {
+
+    var itemClickListener: ((item: PopularItem) -> Unit)? = null
 
     private lateinit var onItemClickCallBack: OnItemClickCallBack
 
@@ -42,8 +46,10 @@ class PopularAdapter: RecyclerView.Adapter<PopularAdapter.HomeViewHolder>() {
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(ivPosterImage)
             }
+
             binding.root.setOnClickListener {
-                onItemClickCallBack.onItemClicked(movie)
+                itemClickListener?.invoke(movie)
+
             }
         }
     }

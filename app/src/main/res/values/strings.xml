@@ -2,4 +2,7 @@
     <string name="app_name">The Movie Listing</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_genre_lang_release">haloo</string>
+    <string name="top_rated_movies">Top Rated Movies</string>
+    <string name="popular_movies">Popular Movies</string>
 </resources>

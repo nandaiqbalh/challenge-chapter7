@@ -1,22 +1,27 @@
-package com.nandaiqbalh.themovielisting.presentation.ui
+package com.nandaiqbalh.themovielisting.presentation.ui.movie
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.nandaiqbalh.themovielisting.R
 
-class MainActivity : AppCompatActivity() {
-
+class HomeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_home)
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_container) as NavHostFragment
 
         navController = navHostFragment.navController
+        setupActionBarWithNavController(navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

@@ -1,4 +1,4 @@
-package com.nandaiqbalh.themovielisting.presentation.ui.register
+package com.nandaiqbalh.themovielisting.presentation.ui.user.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.nandaiqbalh.themovielisting.presentation.ui.login
+package com.nandaiqbalh.themovielisting.presentation.ui.user.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

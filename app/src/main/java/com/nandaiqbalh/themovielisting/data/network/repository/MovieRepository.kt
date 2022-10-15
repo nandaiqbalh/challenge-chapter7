@@ -1,6 +1,7 @@
 package com.nandaiqbalh.themovielisting.data.network.repository
 
 import com.nandaiqbalh.themovielisting.data.network.datasource.MovieDataSource
+import com.nandaiqbalh.themovielisting.data.network.model.detail.DetailMovie
 import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
 import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
 import com.nandaiqbalh.themovielisting.wrapper.Resource
@@ -8,6 +9,7 @@ import com.nandaiqbalh.themovielisting.wrapper.Resource
 interface MovieRepository {
     suspend fun getPopular(): Resource<Popular>
     suspend fun getTopRated(): Resource<TopRated>
+    suspend fun getDetail(id: Int): Resource<DetailMovie>
 }
 
 class MovieRepositoryImpl(private val dataSource: MovieDataSource): MovieRepository {
@@ -20,6 +22,12 @@ class MovieRepositoryImpl(private val dataSource: MovieDataSource): MovieReposit
     override suspend fun getTopRated(): Resource<TopRated> {
         return proceed {
             dataSource.getTopRated()
+        }
+    }
+
+    override suspend fun getDetail(id: Int): Resource<DetailMovie> {
+        return proceed {
+            dataSource.getDetail(id)
         }
     }
 

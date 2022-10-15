@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingVertical="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.ui.home.HomeFragment">
+    tools:context=".presentation.ui.movie.home.HomeFragment">
 
     <TextView
         android:id="@+id/tv_title_popular"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Popular Movies"
+        android:text="@string/popular_movies"
         android:textStyle="bold"
         android:textSize="20sp"
         />
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rv_list_popular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Top Rated Movies"
+        android:text="@string/top_rated_movies"
         android:textStyle="bold"
         android:textSize="20sp"
         />

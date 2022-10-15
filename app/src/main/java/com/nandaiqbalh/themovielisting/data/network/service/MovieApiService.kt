@@ -2,6 +2,7 @@ package com.nandaiqbalh.themovielisting.data.network.service
 
 import com.nandaiqbalh.themovielisting.BuildConfig
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.nandaiqbalh.themovielisting.data.network.model.detail.DetailMovie
 import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
 import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
 import okhttp3.Interceptor
@@ -9,6 +10,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
@@ -24,6 +26,12 @@ interface MovieApiService {
         @Query("language") language: String = LANGUAGE_US,
         @Query("page") page: Int = PAGE
     ): TopRated
+
+    @GET(ApiEndPoints.DETAIL_END_POINT)
+    suspend fun getDetail(
+        @Path("movie_id") id: Int,
+        @Query("language") language: String = LANGUAGE_US
+    ): DetailMovie
 
     companion object {
         private const val LANGUAGE_US = "en-US"

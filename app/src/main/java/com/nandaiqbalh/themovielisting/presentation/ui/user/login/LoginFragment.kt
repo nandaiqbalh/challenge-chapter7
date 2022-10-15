@@ -1,5 +1,6 @@
-package com.nandaiqbalh.themovielisting.presentation.ui.login
+package com.nandaiqbalh.themovielisting.presentation.ui.user.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.nandaiqbalh.themovielisting.R
 import com.nandaiqbalh.themovielisting.data.local.model.user.UserEntity
 import com.nandaiqbalh.themovielisting.databinding.FragmentLoginBinding
 import com.nandaiqbalh.themovielisting.di.UserServiceLocator
+import com.nandaiqbalh.themovielisting.presentation.ui.movie.HomeActivity
 import com.nandaiqbalh.themovielisting.util.viewModelFactory
 import com.nandaiqbalh.themovielisting.wrapper.Resource
 
@@ -112,11 +114,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun navigateToHome() {
-        val option = NavOptions.Builder()
-            .setPopUpTo(R.id.loginFragment, true)
-            .build()
-        val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(args)
-        findNavController().navigate(action, option)
+        val intent = Intent(requireContext(), HomeActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 
     override fun onDestroyView() {

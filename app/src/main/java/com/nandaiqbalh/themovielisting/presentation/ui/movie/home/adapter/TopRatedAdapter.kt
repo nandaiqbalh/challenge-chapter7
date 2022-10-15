@@ -1,4 +1,4 @@
-package com.nandaiqbalh.themovielisting.presentation.ui.home.adapter
+package com.nandaiqbalh.themovielisting.presentation.ui.movie.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +12,8 @@ import com.nandaiqbalh.themovielisting.databinding.ItemPopularMovieBinding
 import com.nandaiqbalh.themovielisting.databinding.ItemTopRatedMovieBinding
 
 class TopRatedAdapter: RecyclerView.Adapter<TopRatedAdapter.HomeViewHolder>() {
+
+    var itemClickListener: ((item: TopRatedItem) -> Unit)? = null
 
     private lateinit var onItemClickCallBack: OnItemClickCallBack
 
@@ -48,7 +50,8 @@ class TopRatedAdapter: RecyclerView.Adapter<TopRatedAdapter.HomeViewHolder>() {
 
             }
             binding.root.setOnClickListener {
-                onItemClickCallBack.onItemClicked(movie)
+                itemClickListener?.invoke(movie)
+
             }
         }
     }
