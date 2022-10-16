@@ -16,7 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/popular_movies"
-        android:textStyle="bold"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/color_primary"
         android:textSize="20sp"
         />
     <androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/top_rated_movies"
-        android:textStyle="bold"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/color_primary"
         android:textSize="20sp"
         />
 
@@ -55,4 +57,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_top_rated"
         />
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Error" />
 </androidx.constraintlayout.widget.ConstraintLayout>

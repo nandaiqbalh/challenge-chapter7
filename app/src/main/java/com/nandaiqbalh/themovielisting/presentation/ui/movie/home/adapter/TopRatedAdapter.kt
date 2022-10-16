@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.nandaiqbalh.themovielisting.data.network.model.detail.Genre
 import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRatedItem
 import com.nandaiqbalh.themovielisting.databinding.ItemPopularMovieBinding
 import com.nandaiqbalh.themovielisting.databinding.ItemTopRatedMovieBinding
@@ -46,7 +47,7 @@ class TopRatedAdapter: RecyclerView.Adapter<TopRatedAdapter.HomeViewHolder>() {
                     .into(ivPosterImage)
 
                 binding.tvTitle.text = movie.title
-                binding.tvLanguage.text = movie.originalLanguage
+                binding.tvReleaseDate.text = movie.releaseDate
 
             }
             binding.root.setOnClickListener {

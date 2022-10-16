@@ -7,6 +7,15 @@ import androidx.core.content.edit
 class UserPreference(context: Context) {
     private val preference: SharedPreferences = context.getSharedPreferences(NAME, MODE)
 
+    var userIdKeyValue: Long
+        get() = preference.getLong(
+            PreferenceKey.PREF_USER_ID_KEY.first,
+            PreferenceKey.PREF_USER_ID_KEY.second,
+        )
+        set(value) = preference.edit {
+            this.putLong(PreferenceKey.PREF_USER_ID_KEY.first, value)
+        }
+
     companion object {
         private const val NAME = "LoginAuth"
         private const val MODE = Context.MODE_PRIVATE
@@ -23,4 +32,6 @@ class UserPreference(context: Context) {
 
 object PreferenceKey{
     val PREF_USER_LOGIN_KEY = Pair("PREF_USER_LOGIN_KEY", false)
+    val PREF_USER_ID_KEY = Pair("PREF_USER_ID_KEY", 0L)
+
 }

@@ -6,17 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-
 import com.nandaiqbalh.themovielisting.R
-import com.nandaiqbalh.themovielisting.data.local.model.user.UserEntity
 import com.nandaiqbalh.themovielisting.databinding.FragmentLoginBinding
 import com.nandaiqbalh.themovielisting.di.UserServiceLocator
 import com.nandaiqbalh.themovielisting.presentation.ui.movie.HomeActivity
 import com.nandaiqbalh.themovielisting.util.viewModelFactory
-import com.nandaiqbalh.themovielisting.wrapper.Resource
+
 
 class LoginFragment : Fragment() {
 
@@ -26,8 +24,6 @@ class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by viewModelFactory {
         LoginViewModel(UserServiceLocator.provideUserRepository(requireContext()))
     }
-
-    private var args: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,56 +43,63 @@ class LoginFragment : Fragment() {
             navigateToHome()
         }
 
-        binding.tvRegisterHere.setOnClickListener {
+        binding.tvRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
+
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
     }
 
     private fun checkLogin() {
         if (validateInput()) {
             val username = binding.etUsername.text.toString()
-            viewModel.getUser(username)
+            val password = binding.etPassword.text.toString()
 
-            viewModel.getUserResult.observe(viewLifecycleOwner) {
-                when (it) {
-                    is Resource.Success -> checkUser(it.payload)
-                    is Resource.Error -> Toast.makeText(
-                        requireContext(),
-                        it.exception?.message.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    else -> {}
+            viewModel.getIfUserExist(username)
+            viewModel.getIfUserExistResult.observe(viewLifecycleOwner) { exist ->
+                if (exist) {
+                    viewModel.checkIsUserLoginValid(username, password)
+                    viewModel.checkIsUserLoginValid.observe(viewLifecycleOwner) {
+                        setSharedPreference(username)
+                        checkUser(it)
+                    }
+                } else {
+                    setLoginState("Username not found")
                 }
             }
         }
     }
 
-    private fun checkUser(user: UserEntity?) {
+    private fun setSharedPreference(username: String) {
+        viewModel.getUserByUsername(username)
+        viewModel.userByUsernameResult.observe(viewLifecycleOwner) {
+            viewModel.setUserId(it.userId)
+        }
+    }
+
+    private fun checkUser(userLoggedIn: Boolean?) {
+
         if (validateInput()) {
-            if (user != null) {
-                val username = binding.etUsername.text.toString()
-                val password = binding.etPassword.text.toString()
-
-                val userLoggedIn = username == user.username && password == user.password
-                args = user.username
-
+            userLoggedIn?.let {
                 if (userLoggedIn) {
                     navigateToHome()
-                    Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
+                    setLoginState("Login Success")
                 } else {
-                    Toast.makeText(context, "Wrong password!", Toast.LENGTH_SHORT).show()
+                    setLoginState("Wrong password")
                 }
                 viewModel.setIfUserLogin(userLoggedIn)
-            } else {
-                Toast.makeText(context, "Username not found!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun setLoginState(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun isUserLoggedIn(): Boolean {
         return viewModel.checkIfUserLoggedIn()
     }
-
     private fun validateInput(): Boolean {
         var isValid = true
         val username = binding.etUsername.text.toString()

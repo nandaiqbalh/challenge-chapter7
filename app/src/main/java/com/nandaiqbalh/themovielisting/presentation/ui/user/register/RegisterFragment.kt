@@ -47,8 +47,15 @@ class RegisterFragment : Fragment() {
                 email = binding.etEmail.text.toString(),
                 password = binding.etPassword.text.toString()
             )
-            viewModel.registerUser(user)
-            navigateToLogin()
+            user.username?.let { viewModel.getIfUserExist(it) }
+            viewModel.getIfUserExistResult.observe(viewLifecycleOwner) { exist ->
+                if (!exist) {
+                    viewModel.registerUser(user)
+                    navigateToLogin()
+                } else {
+                    Toast.makeText(requireContext(), "Username already registered", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

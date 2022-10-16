@@ -35,16 +35,18 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textSize="14sp"
+        android:fontFamily="@font/poppins_medium"
         app:layout_constraintStart_toEndOf="@+id/cv_poster"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/tv_language"
+        android:id="@+id/tv_release_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:maxLines="10"
+        android:fontFamily="@font/poppins_regular"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cv_poster"
