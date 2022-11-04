@@ -11,7 +11,7 @@
         android:id="@+id/tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update Profile"
+        android:text="@string/update_profile"
         android:textSize="24sp"
         android:fontFamily="@font/poppins_bold"
         android:textColor="@color/color_primary"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="Username"
+        android:hint="@string/username"
         android:paddingTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_register">
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="Email"
+        android:hint="@string/email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_username">
 
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="Full Name"
+        android:hint="@string/full_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_email">
 
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="Date of Birth"
+        android:hint="@string/date_of_birth"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_full_name">
 
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="Address"
+        android:hint="@string/address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_date_of_birth">
 
@@ -114,7 +114,7 @@
         android:id="@+id/btn_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Update Profile"
+        android:text="@string/update_profile"
         android:fontFamily="@font/poppins_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

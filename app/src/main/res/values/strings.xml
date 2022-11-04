@@ -1,13 +1,25 @@
 <resources>
     <string name="app_name">The Movie Listing</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_genre_lang_release">haloo</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_genre_lang_release" translatable="false">haloo</string>
     <string name="top_rated_movies">Top Rated Movies</string>
-    <string name="popular_movies">Popular Movies</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="history">History</string>
     <string name="welcome_title">Welcome,</string>
     <string name="welcome_user">User</string>
+    <string name="update_profile" translatable="false">Update Profile</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="to_register">Doesn\'t have any account?</string>
+    <string name="logout">Logout</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="address">Address</string>
+    <string name="popular_movies">Popular Movies</string>
 </resources>

@@ -94,11 +94,11 @@ class ProfileFragment : Fragment() {
     private fun bindDataToView(user: UserEntity?) {
         user?.let {
             binding.apply {
-                tvUsername.text = "Username : ${user.username}"
-                tvEmail.text = "Email          : ${user.email}"
-                tvFullName.text = "Name         : ${user.fullName}"
-                tvDateOfBirth.text = "Birth            : ${user.dateOfBirth}"
-                tvAddress.text = "Address    : ${user.address}"
+                tvUsername.text = user.username
+                tvEmail.text = user.email
+                tvFullName.text =user.fullName
+                tvDateOfBirth.text = user.dateOfBirth
+                tvAddress.text = user.address
             }
         }
     }

@@ -11,7 +11,7 @@
         android:id="@+id/tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile"
+        android:text="@string/profile"
         android:textSize="24sp"
         android:fontFamily="@font/poppins_bold"
         android:textColor="@color/color_primary"
@@ -48,7 +48,7 @@
         android:fontFamily="@font/poppins_regular"
         android:layout_marginTop="20dp"
         android:textSize="16sp"
-        tools:text="Full Name"
+        tools:text="@string/full_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_email"/>
 
@@ -59,7 +59,7 @@
         android:fontFamily="@font/poppins_regular"
         android:layout_marginTop="20dp"
         android:textSize="16sp"
-        tools:text="Date of Birth"
+        tools:text="@string/date_of_birth"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_full_name"/>
 
@@ -70,7 +70,7 @@
         android:fontFamily="@font/poppins_regular"
         android:layout_marginTop="20dp"
         android:textSize="16sp"
-        tools:text="Address"
+        tools:text="@string/address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_date_of_birth"/>
 
@@ -81,7 +81,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="Update Profile"
+        android:text="@string/update_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_logout"
         app:layout_constraintStart_toStartOf="parent" />
@@ -91,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:text="Logout"
+        android:text="@string/logout"
         android:textColor="?attr/colorPrimary"
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
