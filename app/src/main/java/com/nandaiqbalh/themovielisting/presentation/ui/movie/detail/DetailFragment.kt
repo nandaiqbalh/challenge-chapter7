@@ -1,14 +1,13 @@
 package com.nandaiqbalh.themovielisting.presentation.ui.movie.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.nandaiqbalh.themovielisting.R
 import com.nandaiqbalh.themovielisting.data.network.model.detail.DetailMovie
 import com.nandaiqbalh.themovielisting.data.network.model.detail.Genre
 import com.nandaiqbalh.themovielisting.data.network.model.detail.SpokenLanguage
@@ -57,18 +56,20 @@ class DetailFragment : Fragment() {
     }
 
     private fun setView(movie: DetailMovie?) {
+
         movie?.let {
-            Glide.with(this)
-                .load(IMAGE_URL + movie.backdropPath)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.ivMovieImage)
+            binding.apply {
+                Glide.with(this@DetailFragment)
+                    .load(IMAGE_URL + movie.backdropPath)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(ivMovieImage)
 
-            binding.tvMovieTitle.text = movie.title
-            binding.tvGenre.text = setGenre(movie.genres)
-            binding.tvLanguage.text = setLanguage(movie.originalLanguage, movie.spokenLanguages)
-            binding.titleOverview.text = movie.originalTitle
-            binding.tvOverview.text = movie.overview
-
+                tvMovieTitle.text = movie.title
+                tvGenre.text = setGenre(movie.genres)
+                tvLanguage.text = setLanguage(movie.originalLanguage, movie.spokenLanguages)
+                titleOverview.text = movie.originalTitle
+                tvOverview.text = movie.overview
+            }
         }
     }
 
@@ -91,7 +92,8 @@ class DetailFragment : Fragment() {
                 i?.let {
                     if (i.iso6391 == oriLang) {
                         language = i.englishName
-                    } }
+                    }
+                }
             }
         }
         return language
