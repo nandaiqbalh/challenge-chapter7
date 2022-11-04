@@ -52,15 +52,9 @@ class HomeFragment : Fragment() {
 
     private fun getInitialUser() {
         val userId = viewModel.getUserId()
-        Log.d("inituser", userId.toString())
         viewModel.getUserById(userId)
         viewModel.userByIdResult.observe(viewLifecycleOwner) {
-            it?.let {}
-        }
-        findNavController().addOnDestinationChangedListener { _, destination, arguments ->
-            if (destination.id == R.id.profileFragment) {
-                ProfileFragment().arguments = arguments
-            }
+            it?.let { binding.tvWelcomeUser.text = it.username}
         }
     }
 

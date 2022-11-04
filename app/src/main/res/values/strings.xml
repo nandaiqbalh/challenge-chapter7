@@ -8,4 +8,6 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="history">History</string>
+    <string name="welcome_title">Welcome,</string>
+    <string name="welcome_user">User</string>
 </resources>
