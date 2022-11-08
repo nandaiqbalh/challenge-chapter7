@@ -51,10 +51,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun getInitialUser() {
-        val userId = viewModel.getUserId()
-        viewModel.getUserById(userId)
-        viewModel.userByIdResult.observe(viewLifecycleOwner) {
-            it?.let { binding.tvWelcomeUser.text = it.username}
+        viewModel.getUser().observe(viewLifecycleOwner) {
+            it?.let { binding.tvWelcomeUser.text = it.username }
         }
     }
 

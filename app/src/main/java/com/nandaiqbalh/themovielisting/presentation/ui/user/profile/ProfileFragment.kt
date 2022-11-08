@@ -11,12 +11,11 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.nandaiqbalh.themovielisting.R
-import com.nandaiqbalh.themovielisting.data.local.model.user.UserEntity
+import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
 import com.nandaiqbalh.themovielisting.databinding.FragmentProfileBinding
 import com.nandaiqbalh.themovielisting.di.UserServiceLocator
 import com.nandaiqbalh.themovielisting.presentation.ui.user.MainActivity
 import com.nandaiqbalh.themovielisting.util.viewModelFactory
-import com.nandaiqbalh.themovielisting.wrapper.Resource
 
 class ProfileFragment : Fragment() {
 
@@ -41,14 +40,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getInitialData()
         observeData()
         setOnClickListener()
-    }
-
-    private fun getUserData() {
-        val user = args.user
-        bindDataToView(user)
     }
 
     private fun setOnClickListener() {
@@ -59,44 +52,24 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_updateProfileFragment, null, options)        }
 
         binding.btnLogout.setOnClickListener {
-            viewModel.setIfUserLogin(false)
+            viewModel.setUserLogin(false)
             startActivity(Intent(requireContext(), MainActivity::class.java))
             activity?.finish()
         }
     }
 
-    private fun getInitialData() {
-        val userId = viewModel.getUserId()
-        getUserById(userId)
-    }
-
-    private fun getUserById(userId: Long?) {
-        if (userId != null) {
-            viewModel.getUserById(userId)
-        }
-    }
-
     private fun observeData() {
-        viewModel.userByIdResult.observe(viewLifecycleOwner) {
+        viewModel.getUser().observe(viewLifecycleOwner) {
             bindDataToView(it)
         }
-        viewModel.updateResult.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-                    getUserData()
-                }
-                else -> {}
-            }
-        }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun bindDataToView(user: UserEntity?) {
+    private fun bindDataToView(user: UserPreferences?) {
         user?.let {
             binding.apply {
                 tvUsername.text = user.username
                 tvEmail.text = user.email
-                tvFullName.text =user.fullName
+                tvFullName.text = user.fullName
                 tvDateOfBirth.text = user.dateOfBirth
                 tvAddress.text = user.address
             }

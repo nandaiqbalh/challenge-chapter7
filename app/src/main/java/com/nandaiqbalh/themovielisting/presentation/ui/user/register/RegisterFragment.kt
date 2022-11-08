@@ -1,6 +1,7 @@
 package com.nandaiqbalh.themovielisting.presentation.ui.user.register
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,20 +43,13 @@ class RegisterFragment : Fragment() {
 
     private fun registerUser() {
         if (validateInput()) {
-            val user = UserEntity(
-                username = binding.etUsername.text.toString(),
-                email = binding.etEmail.text.toString(),
-                password = binding.etPassword.text.toString()
-            )
-            user.username?.let { viewModel.getIfUserExist(it) }
-            viewModel.getIfUserExistResult.observe(viewLifecycleOwner) { exist ->
-                if (!exist) {
-                    viewModel.registerUser(user)
-                    navigateToLogin()
-                } else {
-                    Toast.makeText(requireContext(), "Username already registered", Toast.LENGTH_SHORT).show()
-                }
-            }
+            val id = (1..10000).random()
+            val username = binding.etUsername.text.toString().trim()
+            val email = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+
+            viewModel.registerUser(id, username, email, password)
+            navigateToLogin()
         }
     }
 

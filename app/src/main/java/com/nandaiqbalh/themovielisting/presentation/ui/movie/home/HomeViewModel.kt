@@ -1,11 +1,9 @@
 package com.nandaiqbalh.themovielisting.presentation.ui.movie.home
 
 import android.os.Parcelable
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.nandaiqbalh.themovielisting.data.local.model.user.UserEntity
+import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
 import com.nandaiqbalh.themovielisting.data.local.repository.UserRepository
 import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
 import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
@@ -21,9 +19,6 @@ class HomeViewModel(private val movieRepository: MovieRepository, private val us
 
     private val _getTopRatedResult = MutableLiveData<Resource<TopRated>>()
     val getTopRatedResult: LiveData<Resource<TopRated>> get() = _getTopRatedResult
-
-    private val _userByIdResult = MutableLiveData<UserEntity>()
-    val userByIdResult: LiveData<UserEntity> get() = _userByIdResult
 
     fun getPopular() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -42,14 +37,9 @@ class HomeViewModel(private val movieRepository: MovieRepository, private val us
             }
         }
     }
-    fun getUserId(): Long {
-        return userRepository.getUserId()
-    }
 
-    fun getUserById(id: Long) {
-        viewModelScope.launch {
-            _userByIdResult.postValue(userRepository.getUserById(id))
-        }
+    fun getUser(): LiveData<UserPreferences> {
+        return userRepository.getUser().asLiveData()
     }
 
     var listStateParcel: Parcelable? = null

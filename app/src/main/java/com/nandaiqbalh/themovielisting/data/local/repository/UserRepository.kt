@@ -1,70 +1,51 @@
 package com.nandaiqbalh.themovielisting.data.local.repository
 
-import com.nandaiqbalh.themovielisting.data.local.database.user.UserDataSource
 import com.nandaiqbalh.themovielisting.data.local.model.user.UserEntity
 import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferenceDataSource
+import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
 import com.nandaiqbalh.themovielisting.wrapper.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    fun checkIfUserLoggedIn(): Boolean
-    fun setIfUserLogin(userLoggedIn: Boolean)
+    suspend fun setUser(id: Int, name: String, email: String, password: String)
+    suspend fun updateUser(user: UserPreferences)
+    suspend fun setUserLogin(isLogin: Boolean)
+    suspend fun setProfileImage(image: String)
 
-    fun getUserId(): Long
-    fun setUserId(id: Long)
-
-    suspend fun registerUser(user: UserEntity): Resource<Number>
-    suspend fun updateUser(user: UserEntity): Resource<Number>
-    suspend fun checkIsUserLoginValid(username: String, password: String): Boolean
-    suspend fun getIfUserExists(username: String): Boolean
-    suspend fun getUserById(id: Long): UserEntity
-    suspend fun getUserByUsername(username: String): UserEntity
+    fun getUser(): Flow<UserPreferences>
+    fun getUserLogin(): Flow<Boolean>
+    fun getUserProfileImage(): Flow<String>
 }
 
 class UserRepositoryImpl(
     private val userPreferenceDataSource: UserPreferenceDataSource,
-    private val userDataSource: UserDataSource,
 ): UserRepository {
-    override fun checkIfUserLoggedIn(): Boolean {
-        return userPreferenceDataSource.getIfUserLogin()
-    }
-    override fun setIfUserLogin(userLoggedIn: Boolean){
-        return userPreferenceDataSource.setIfUserLogin(userLoggedIn)
+    override suspend fun setUser(id: Int, name: String, email: String, password: String) {
+        userPreferenceDataSource.setUser(id, name, email, password)
     }
 
-    override fun getUserId(): Long {
-        return userPreferenceDataSource.getUserId()
+    override suspend fun updateUser(user: UserPreferences) {
+        userPreferenceDataSource.updateUser(user)
     }
 
-    override fun setUserId(id: Long) {
-        return userPreferenceDataSource.setUserId(id)
+    override suspend fun setUserLogin(isLogin: Boolean) {
+        userPreferenceDataSource.setUserLogin(isLogin)
     }
 
-    override suspend fun registerUser(user: UserEntity): Resource<Number> {
-        return proceed {
-            userDataSource.registerUser(user)
-        }
+    override suspend fun setProfileImage(image: String) {
+        userPreferenceDataSource.setProfileImage(image)
     }
 
-    override suspend fun updateUser(user: UserEntity): Resource<Number> {
-        return proceed {
-            userDataSource.updateUser(user)
-        }
+    override fun getUser(): Flow<UserPreferences> {
+        return userPreferenceDataSource.getUser()
     }
 
-    override suspend fun checkIsUserLoginValid(username: String, password: String): Boolean {
-        return userDataSource.validateUserLogin(username, password)
+    override fun getUserLogin(): Flow<Boolean> {
+        return userPreferenceDataSource.getUserLogin()
     }
 
-    override suspend fun getIfUserExists(username: String): Boolean {
-        return userDataSource.getIfUserExists(username)
-    }
-
-    override suspend fun getUserById(id: Long): UserEntity {
-        return userDataSource.getUserById(id)
-    }
-
-    override suspend fun getUserByUsername(username: String): UserEntity {
-        return userDataSource.getUserByUsername(username)
+    override fun getUserProfileImage(): Flow<String> {
+        return userPreferenceDataSource.getUserProfileImage()
     }
 
     private suspend fun <T> proceed(coroutine: suspend () -> T): Resource<T> {
