@@ -4,17 +4,19 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class UserDataStoreManager(private val context: Context) {
+class UserDataStoreManager @Inject constructor(@ApplicationContext private val context: Context) {
 
-    suspend fun setUser(id: Int, name: String, email: String, password: String) {
+    suspend fun setUser(user: UserPreferences) {
         context.userDataStore.edit { preferences ->
-            preferences[ID_KEY] = id
-            preferences[USERNAME_KEY] = name
-            preferences[EMAIL_KEY] = email
-            preferences[PASSWORD_KEY] = password
+            preferences[ID_KEY] = user.id ?: 0
+            preferences[USERNAME_KEY] = user.username
+            preferences[EMAIL_KEY] = user.email
+            preferences[PASSWORD_KEY] = user.password ?: ""
         }
     }
 
@@ -22,9 +24,9 @@ class UserDataStoreManager(private val context: Context) {
         context.userDataStore.edit { preferences ->
             preferences[USERNAME_KEY] = user.username
             preferences[EMAIL_KEY] = user.email
-            preferences[FULL_NAME_KEY] = user.fullName
-            preferences[DATE_OF_BIRTH_KEY] = user.dateOfBirth
-            preferences[ADDRESS_KEY] = user.address
+            preferences[FULL_NAME_KEY] = user.fullName ?: ""
+            preferences[DATE_OF_BIRTH_KEY] = user.dateOfBirth ?: ""
+            preferences[ADDRESS_KEY] = user.address ?: ""
         }
     }
 

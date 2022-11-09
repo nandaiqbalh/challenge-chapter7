@@ -4,6 +4,7 @@ import com.nandaiqbalh.themovielisting.data.network.model.detail.DetailMovie
 import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
 import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
 import com.nandaiqbalh.themovielisting.data.network.service.MovieApiService
+import javax.inject.Inject
 
 interface MovieDataSource {
     suspend fun getPopular(): Popular
@@ -11,7 +12,7 @@ interface MovieDataSource {
     suspend fun getDetail(id: Int): DetailMovie
 }
 
-class MovieDataSourceImpl(private val apiService: MovieApiService): MovieDataSource {
+class MovieDataSourceImpl @Inject constructor(private val apiService: MovieApiService): MovieDataSource {
     override suspend fun getPopular(): Popular {
         return apiService.getPopular()
     }

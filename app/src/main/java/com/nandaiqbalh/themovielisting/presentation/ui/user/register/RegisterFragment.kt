@@ -7,22 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.nandaiqbalh.themovielisting.R
-import com.nandaiqbalh.themovielisting.data.local.model.user.UserEntity
+import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
 import com.nandaiqbalh.themovielisting.databinding.FragmentRegisterBinding
-import com.nandaiqbalh.themovielisting.di.UserServiceLocator
-import com.nandaiqbalh.themovielisting.util.viewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: RegisterViewModel by viewModelFactory {
-        RegisterViewModel(UserServiceLocator.provideUserRepository(requireContext()))
-    }
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +47,14 @@ class RegisterFragment : Fragment() {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 
-            viewModel.registerUser(id, username, email, password)
+            val user = UserPreferences(
+                id = id,
+                username = username,
+                email = email,
+                password = password
+            )
+
+            viewModel.registerUser(user)
             navigateToLogin()
         }
     }
@@ -59,7 +65,7 @@ class RegisterFragment : Fragment() {
             .build()
         val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
         findNavController().navigate(action, option)
-        Toast.makeText(context, "Register Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Register Success!", Toast.LENGTH_SHORT).show()
     }
 
     private fun validateInput(): Boolean {
@@ -71,19 +77,19 @@ class RegisterFragment : Fragment() {
 
         if (username.isEmpty()) {
             isValid = false
-            binding.etUsername.error = "Username or password must not be empty"
+            binding.etUsername.error = "Username or password must not be empty!"
         }
         if (email.isEmpty()) {
             isValid = false
-            binding.etEmail.error = "Email must not be empty"
+            binding.etEmail.error = "Email must not be empty!"
         }
         if (password.isEmpty()) {
             isValid = false
-            Toast.makeText(requireContext(), "Password must not be empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Password must not be empty!", Toast.LENGTH_SHORT).show()
         }
         if (confirmPassword.isEmpty()) {
             isValid = false
-            Toast.makeText(requireContext(), "Confirm password must not be empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Confirm password must not be empty!", Toast.LENGTH_SHORT).show()
         }
         if (password != confirmPassword) {
             isValid = false

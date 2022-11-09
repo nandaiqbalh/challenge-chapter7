@@ -9,10 +9,13 @@ import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
 import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
 import com.nandaiqbalh.themovielisting.data.network.repository.MovieRepository
 import com.nandaiqbalh.themovielisting.wrapper.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val movieRepository: MovieRepository, private val userRepository: UserRepository): ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val movieRepository: MovieRepository, private val userRepository: UserRepository): ViewModel() {
 
     private val _getPopularResult = MutableLiveData<Resource<Popular>>()
     val getPopularResult: LiveData<Resource<Popular>> get() = _getPopularResult

@@ -8,13 +8,16 @@ import com.nandaiqbalh.themovielisting.data.local.model.user.UserEntity
 import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
 import com.nandaiqbalh.themovielisting.data.local.repository.UserRepository
 import com.nandaiqbalh.themovielisting.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterViewModel(private val repository: UserRepository) : ViewModel() {
+@HiltViewModel
+class RegisterViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
 
-    fun registerUser(id: Int, username: String, email: String, password: String) {
+    fun registerUser(user: UserPreferences) {
         viewModelScope.launch {
-            repository.setUser(id, username, email, password)
+            repository.setUser(user)
         }
     }
 

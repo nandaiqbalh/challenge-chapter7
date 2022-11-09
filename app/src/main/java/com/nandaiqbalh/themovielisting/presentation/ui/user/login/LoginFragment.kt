@@ -2,29 +2,26 @@ package com.nandaiqbalh.themovielisting.presentation.ui.user.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nandaiqbalh.themovielisting.R
 import com.nandaiqbalh.themovielisting.databinding.FragmentLoginBinding
-import com.nandaiqbalh.themovielisting.di.UserServiceLocator
 import com.nandaiqbalh.themovielisting.presentation.ui.movie.HomeActivity
-import com.nandaiqbalh.themovielisting.util.viewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: LoginViewModel by viewModelFactory {
-        LoginViewModel(UserServiceLocator.provideUserRepository(requireContext()))
-    }
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,10 +55,10 @@ class LoginFragment : Fragment() {
             viewModel.getUser().observe(viewLifecycleOwner) { user ->
                 if (user.username == username && user.password == password) {
                     navigateToHome()
-                    setLoginState("Login Success")
+                    setLoginState("Login Success!")
                     viewModel.setUserLogin(true)
                 } else {
-                    setLoginState("Wrong username or password")
+                    setLoginState("Wrong validation!")
                 }
             }
         }

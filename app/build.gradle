@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-android'
     id 'androidx.navigation.safeargs'
     id 'kotlin-parcelize'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -51,6 +52,10 @@ android {
             buildConfigField("String", "API_KEY", "\"${keyProperties.getProperty("API_KEY")}\"")
         }
     }
+}
+
+kapt {
+    correctErrorTypes true
 }
 
 dependencies {
@@ -107,4 +112,12 @@ dependencies {
     //datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation "androidx.activity:activity-ktx:1.5.0"
+
+    //work manager
+    def work_version = "2.7.1"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    //dagger hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
 }

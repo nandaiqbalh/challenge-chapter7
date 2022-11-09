@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Base64
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,24 +19,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.navigation.NavOptions
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.nandaiqbalh.themovielisting.R
 import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
 import com.nandaiqbalh.themovielisting.databinding.FragmentUpdateProfileBinding
-import com.nandaiqbalh.themovielisting.di.UserServiceLocator
-import com.nandaiqbalh.themovielisting.util.viewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 
+@AndroidEntryPoint
 class UpdateProfileFragment : Fragment() {
 
     private var _binding: FragmentUpdateProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ProfileViewModel by viewModelFactory {
-        ProfileViewModel(UserServiceLocator.provideUserRepository(requireContext()))
-    }
+    private val viewModel: ProfileViewModel by viewModels()
 
     private val REQUEST_CODE_PERMISSION = 3
 

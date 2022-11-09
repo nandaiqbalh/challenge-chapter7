@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -12,17 +13,15 @@ import com.nandaiqbalh.themovielisting.data.network.model.detail.DetailMovie
 import com.nandaiqbalh.themovielisting.data.network.model.detail.Genre
 import com.nandaiqbalh.themovielisting.data.network.model.detail.SpokenLanguage
 import com.nandaiqbalh.themovielisting.databinding.FragmentDetailBinding
-import com.nandaiqbalh.themovielisting.di.MovieServiceLocator
-import com.nandaiqbalh.themovielisting.util.viewModelFactory
 import com.nandaiqbalh.themovielisting.wrapper.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: DetailViewModel by viewModelFactory {
-        DetailViewModel(MovieServiceLocator.provideMovieRepository(requireContext()))
-    }
+    private val viewModel: DetailViewModel by viewModels()
 
     private val args: DetailFragmentArgs by navArgs()
 

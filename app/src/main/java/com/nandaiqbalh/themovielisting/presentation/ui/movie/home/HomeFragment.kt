@@ -1,37 +1,29 @@
 package com.nandaiqbalh.themovielisting.presentation.ui.movie.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nandaiqbalh.themovielisting.R
 import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
 import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
 import com.nandaiqbalh.themovielisting.databinding.FragmentHomeBinding
-import com.nandaiqbalh.themovielisting.di.MovieServiceLocator
-import com.nandaiqbalh.themovielisting.di.UserServiceLocator
 import com.nandaiqbalh.themovielisting.presentation.ui.movie.home.adapter.PopularAdapter
 import com.nandaiqbalh.themovielisting.presentation.ui.movie.home.adapter.TopRatedAdapter
-import com.nandaiqbalh.themovielisting.presentation.ui.user.profile.ProfileFragment
-import com.nandaiqbalh.themovielisting.util.viewModelFactory
 import com.nandaiqbalh.themovielisting.wrapper.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by viewModelFactory {
-        HomeViewModel(
-            MovieServiceLocator.provideMovieRepository(requireContext()),
-            UserServiceLocator.provideUserRepository(requireContext())
-        )
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
