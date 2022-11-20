@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.nandaiqbalh.themovielisting.data.network.model.detail.Genre
-import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRatedItem
+import com.nandaiqbalh.themovielisting.data.network.movie.model.detail.Genre
+import com.nandaiqbalh.themovielisting.data.network.movie.model.toprated.TopRatedItem
 import com.nandaiqbalh.themovielisting.databinding.ItemPopularMovieBinding
 import com.nandaiqbalh.themovielisting.databinding.ItemTopRatedMovieBinding
 

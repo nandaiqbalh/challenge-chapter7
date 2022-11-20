@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nandaiqbalh.themovielisting.data.network.model.detail.DetailMovie
-import com.nandaiqbalh.themovielisting.data.network.repository.MovieRepository
+import com.nandaiqbalh.themovielisting.data.network.movie.model.detail.DetailMovie
+import com.nandaiqbalh.themovielisting.data.network.movie.repository.MovieRepository
 import com.nandaiqbalh.themovielisting.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

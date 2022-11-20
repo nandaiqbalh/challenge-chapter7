@@ -1,13 +1,14 @@
 package com.nandaiqbalh.themovielisting.presentation.ui.movie.home
 
 import android.os.Parcelable
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.nandaiqbalh.themovielisting.data.local.model.user.UserEntity
-import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
+import com.nandaiqbalh.themovielisting.data.local.datasource.UserPreferences
 import com.nandaiqbalh.themovielisting.data.local.repository.UserRepository
-import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
-import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
-import com.nandaiqbalh.themovielisting.data.network.repository.MovieRepository
+import com.nandaiqbalh.themovielisting.data.network.movie.model.popular.Popular
+import com.nandaiqbalh.themovielisting.data.network.movie.model.toprated.TopRated
+import com.nandaiqbalh.themovielisting.data.network.movie.repository.MovieRepository
 import com.nandaiqbalh.themovielisting.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +40,10 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
                 _getTopRatedResult.postValue(data)
             }
         }
+    }
+
+    fun getUserDetail(fragment: Fragment) {
+        userRepository.getUserDetail(fragment)
     }
 
     fun getUser(): LiveData<UserPreferences> {

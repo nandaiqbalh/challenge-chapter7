@@ -9,13 +9,18 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.nandaiqbalh.themovielisting.R
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var bottomNav: BottomNavigationView
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +34,7 @@ class HomeActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration.Builder(
             R.id.homeFragment,
+            R.id.historyFragment,
             R.id.profileFragment
         ).build()
 
@@ -40,9 +46,19 @@ class HomeActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.detailFragment -> hideBottomNav(true)
                 R.id.updateProfileFragment -> hideBottomNav(true)
+                R.id.historyFragment -> testCrash()
                 else -> hideBottomNav(false)
             }
         }
+    }
+
+
+    private fun testCrash(){
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.METHOD, "search")
+        analytics.logEvent("history_click", bundle)
+
+        throw RuntimeException("Test Crash") // Force a crash
     }
 
     private fun hideBottomNav(hide: Boolean) {

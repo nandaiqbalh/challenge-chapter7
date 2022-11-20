@@ -6,6 +6,8 @@ plugins {
     id 'androidx.navigation.safeargs'
     id 'kotlin-parcelize'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -26,6 +28,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -36,6 +39,10 @@ android {
         jvmTarget = '1.8'
     }
 
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     viewBinding {
         enabled true
     }
@@ -44,12 +51,24 @@ android {
     def keyProperties = new Properties()
     keyProperties.load(new FileInputStream(keyPropertiesFile))
 
-    flavorDimensions 'default'
+    flavorDimensions "default", "version"
     productFlavors {
         production {
-            dimension = 'default'
+            dimension = "default"
             buildConfigField("String", "BASE_URL", "\"${keyProperties.getProperty("BASE_URL")}\"")
             buildConfigField("String", "API_KEY", "\"${keyProperties.getProperty("API_KEY")}\"")
+        }
+        free {
+            dimension = "version"
+            applicationIdSuffix ".free"
+            versionNameSuffix ".free"
+            manifestPlaceholders = [appLabel: "FreeTheMovieListing"]
+        }
+        premium {
+            dimension = "version"
+            applicationIdSuffix ".premium"
+            versionNameSuffix ".premium"
+            manifestPlaceholders = [appLabel: "PremiumTheMovieListing"]
         }
     }
 }
@@ -104,20 +123,41 @@ dependencies {
     debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
 
-    //retrofit & okhttp
+    // retrofit & okhttp
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 
-    //datastore
+    // datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation "androidx.activity:activity-ktx:1.5.0"
 
-    //work manager
+    // work manager
     def work_version = "2.7.1"
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
-    //dagger hilt
+    // dagger hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
+
+    // testing
+    testImplementation "io.mockk:mockk:1.13.2"
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.mockito:mockito-core:4.4.0'
+    testImplementation 'org.mockito:mockito-inline:4.4.0'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+    implementation 'androidx.arch.core:core-testing:2.1.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:29.3.1')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'androidx.test:core-ktx:1.4.0'
+    implementation 'androidx.test.ext:junit-ktx:1.1.3'
+
 }

@@ -2,8 +2,8 @@ package com.nandaiqbalh.themovielisting.di
 
 import com.nandaiqbalh.themovielisting.data.local.repository.UserRepository
 import com.nandaiqbalh.themovielisting.data.local.repository.UserRepositoryImpl
-import com.nandaiqbalh.themovielisting.data.network.repository.MovieRepository
-import com.nandaiqbalh.themovielisting.data.network.repository.MovieRepositoryImpl
+import com.nandaiqbalh.themovielisting.data.network.movie.repository.MovieRepository
+import com.nandaiqbalh.themovielisting.data.network.movie.repository.MovieRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

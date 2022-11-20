@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1053949105341",
+    "project_id": "the-movie-listing",
+    "storage_bucket": "the-movie-listing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053949105341:android:12f151838a9faa7029d3d4",
+        "android_client_info": {
+          "package_name": "com.nandaiqbalh.themovielisting.free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053949105341-t8vf8pdrt9se5d2lac04vo3ka6muv00f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGm5DAke414OnLwifV0w78xl4ey4SYR5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053949105341-t8vf8pdrt9se5d2lac04vo3ka6muv00f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

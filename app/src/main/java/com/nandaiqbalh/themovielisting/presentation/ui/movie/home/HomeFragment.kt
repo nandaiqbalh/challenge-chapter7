@@ -1,6 +1,7 @@
 package com.nandaiqbalh.themovielisting.presentation.ui.movie.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
-import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
+import com.nandaiqbalh.themovielisting.data.network.firebase.model.User
+import com.nandaiqbalh.themovielisting.data.network.movie.model.popular.Popular
+import com.nandaiqbalh.themovielisting.data.network.movie.model.toprated.TopRated
 import com.nandaiqbalh.themovielisting.databinding.FragmentHomeBinding
 import com.nandaiqbalh.themovielisting.presentation.ui.movie.home.adapter.PopularAdapter
 import com.nandaiqbalh.themovielisting.presentation.ui.movie.home.adapter.TopRatedAdapter
+import com.nandaiqbalh.themovielisting.presentation.ui.user.login.LoginFragment
 import com.nandaiqbalh.themovielisting.wrapper.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,14 +41,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fetchData()
-        getInitialUser()
         observeData()
     }
 
-    private fun getInitialUser() {
-        viewModel.getUser().observe(viewLifecycleOwner) {
-            it?.let { binding.tvWelcomeUser.text = it.username }
-        }
+
+    fun getInitialUser(user: User) {
+        binding.tvWelcomeUser.text = user.username
     }
 
     private fun fetchData() {
@@ -93,6 +94,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeData() {
+        viewModel.getUserDetail(this@HomeFragment)
+
         viewModel.getPopularResult.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {

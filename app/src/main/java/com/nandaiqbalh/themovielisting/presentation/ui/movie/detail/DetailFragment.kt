@@ -9,9 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.nandaiqbalh.themovielisting.data.network.model.detail.DetailMovie
-import com.nandaiqbalh.themovielisting.data.network.model.detail.Genre
-import com.nandaiqbalh.themovielisting.data.network.model.detail.SpokenLanguage
+import com.nandaiqbalh.themovielisting.data.network.movie.model.detail.DetailMovie
+import com.nandaiqbalh.themovielisting.data.network.movie.model.detail.Genre
+import com.nandaiqbalh.themovielisting.data.network.movie.model.detail.SpokenLanguage
 import com.nandaiqbalh.themovielisting.databinding.FragmentDetailBinding
 import com.nandaiqbalh.themovielisting.wrapper.Resource
 import dagger.hilt.android.AndroidEntryPoint

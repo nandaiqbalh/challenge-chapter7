@@ -2,6 +2,7 @@ package com.nandaiqbalh.themovielisting.presentation.ui.user.register
 
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.nandaiqbalh.themovielisting.R
-import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
+import com.nandaiqbalh.themovielisting.data.local.datasource.UserPreferences
 import com.nandaiqbalh.themovielisting.databinding.FragmentRegisterBinding
+import com.nandaiqbalh.themovielisting.util.Utils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,8 +56,11 @@ class RegisterFragment : Fragment() {
                 password = password
             )
 
-            viewModel.registerUser(user)
-            navigateToLogin()
+            viewModel.createUserFirebase(username, email, password)
+
+            if (!Utils.isFailure) {
+                navigateToLogin()
+            }
         }
     }
 
@@ -75,17 +80,21 @@ class RegisterFragment : Fragment() {
         val password = binding.etPassword.text.toString()
         val confirmPassword = binding.etConfirmPassword.text.toString()
 
-        if (username.isEmpty()) {
+        if (email.isEmpty() ) {
             isValid = false
-            binding.etUsername.error = "Username or password must not be empty!"
+            binding.etEmail.error = "Email must not be empty"
         }
-        if (email.isEmpty()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             isValid = false
-            binding.etEmail.error = "Email must not be empty!"
+            binding.etEmail.error = "Invalid email"
         }
         if (password.isEmpty()) {
             isValid = false
-            Toast.makeText(requireContext(), "Password must not be empty!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Password must not be empty", Toast.LENGTH_SHORT).show()
+        }
+        if (password.length < 6) {
+            isValid = false
+            Toast.makeText(requireContext(), "Password should be at least 6 characters", Toast.LENGTH_SHORT).show()
         }
         if (confirmPassword.isEmpty()) {
             isValid = false

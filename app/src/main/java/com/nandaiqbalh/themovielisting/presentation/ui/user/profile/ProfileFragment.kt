@@ -17,12 +17,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.work.WorkInfo
 import com.bumptech.glide.Glide
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.nandaiqbalh.themovielisting.R
-import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
+import com.nandaiqbalh.themovielisting.data.local.datasource.UserPreferences
+import com.nandaiqbalh.themovielisting.data.network.firebase.model.User
 import com.nandaiqbalh.themovielisting.databinding.FragmentProfileBinding
 import com.nandaiqbalh.themovielisting.presentation.ui.user.MainActivity
 import com.nandaiqbalh.themovielisting.util.workers.KEY_IMAGE_URI
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -32,7 +35,10 @@ class ProfileFragment : Fragment() {
 
     private val viewModel: ProfileViewModel by viewModels()
 
-    private val args: ProfileFragmentArgs by navArgs()
+    private lateinit var userDetails: User
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,10 +59,11 @@ class ProfileFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.btnUpdateProfile.setOnClickListener {
-            val options = NavOptions.Builder()
-                .setPopUpTo(R.id.profileFragment, false)
-                .build()
-            findNavController().navigate(R.id.action_profileFragment_to_updateProfileFragment, null, options)        }
+            navigateToUpdateProfile()
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.METHOD, "update profile")
+            analytics.logEvent("click_update", bundle)
+        }
 
         binding.btnLogout.setOnClickListener {
             viewModel.setUserLogin(false)
@@ -82,6 +89,7 @@ class ProfileFragment : Fragment() {
 
         binding.ivProfileImage.setOnClickListener {
             Toast.makeText(requireContext(), "Click button update profile to update your profile!", Toast.LENGTH_LONG).show()
+            throw RuntimeException("Test Crash")
         }
     }
 
@@ -133,13 +141,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeData() {
-        viewModel.getUser().observe(viewLifecycleOwner) {
-            bindDataToView(it)
-        }
+        viewModel.getUserDetail(this@ProfileFragment)
     }
 
-    private fun bindDataToView(user: UserPreferences?) {
-        user?.let {
+    fun bindDataToView(user: User) {
+        userDetails = user
+        user.let {
             binding.apply {
                 tvUsername.text = user.username
                 tvEmail.text = user.email
@@ -147,7 +154,7 @@ class ProfileFragment : Fragment() {
                 tvDateOfBirth.text = user.dateOfBirth
                 tvAddress.text = user.address
 
-                user.profileImage?.let {
+                user.profileImage.let {
                     if (it.isEmpty().not()) {
                         Glide.with(this@ProfileFragment)
                             .load(convertStringToBitmap(it))
@@ -164,8 +171,21 @@ class ProfileFragment : Fragment() {
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     }
 
+    private fun navigateToUpdateProfile() {
+        val options = NavOptions.Builder()
+            .setPopUpTo(R.id.profileFragment, false)
+            .build()
+        val bundle = Bundle()
+        bundle.putParcelable(USER_DETAILS, userDetails)
+        findNavController().navigate(R.id.action_profileFragment_to_updateProfileFragment, bundle, options)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val USER_DETAILS = "user_details"
     }
 }

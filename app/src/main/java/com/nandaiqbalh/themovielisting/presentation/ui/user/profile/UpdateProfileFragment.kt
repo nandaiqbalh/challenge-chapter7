@@ -23,7 +23,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.nandaiqbalh.themovielisting.R
-import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
+import com.nandaiqbalh.themovielisting.data.local.datasource.UserPreferences
+import com.nandaiqbalh.themovielisting.data.network.firebase.model.User
 import com.nandaiqbalh.themovielisting.databinding.FragmentUpdateProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
@@ -35,6 +36,7 @@ class UpdateProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ProfileViewModel by viewModels()
+    private lateinit var user: User
 
     private val REQUEST_CODE_PERMISSION = 3
 
@@ -62,11 +64,9 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun observeData() {
-        viewModel.getUser().observe(viewLifecycleOwner) {
-            bindDataToForm(it)
-        }
+        user = arguments?.getParcelable<User>(ProfileFragment.USER_DETAILS)!!
+        bindDataToForm(user)
     }
-
     private fun setOnClickListener() {
 
         binding.ivProfileImage.setOnClickListener {
@@ -75,13 +75,45 @@ class UpdateProfileFragment : Fragment() {
 
         binding.btnUpdate.setOnClickListener {
             if (validateInput()) {
-                viewModel.updateUser(parseFormIntoData())
+                updateUserProfileDetails()
                 findNavController().navigate(R.id.action_updateProfileFragment_to_profileFragment)
                 Toast.makeText(requireContext(), "Update profile success!", Toast.LENGTH_SHORT).show()
 
             }
         }
     }
+
+    private fun updateUserProfileDetails() {
+        val userHashMap = HashMap<String, Any>()
+
+        val username = binding.etUsername.text.toString().trim()
+        if (username != user.username) {
+            userHashMap[USERNAME] = username
+        }
+
+        val email = binding.etEmail.text.toString().trim()
+        if (email != user.email) {
+            userHashMap[EMAIL] = email
+        }
+
+        val fullName = binding.etFullName.text.toString().trim()
+        if (fullName != user.fullName) {
+            userHashMap[FULL_NAME] = fullName
+        }
+
+        val dateOfBirth = binding.etDateOfBirth.text.toString().trim()
+        if (dateOfBirth != user.dateOfBirth) {
+            userHashMap[DATE_OF_BIRTH] = dateOfBirth
+        }
+
+        val address = binding.etAddress.text.toString().trim()
+        if (address != user.address) {
+            userHashMap[ADDRESS] = address
+        }
+
+        viewModel.updateProfile(this@UpdateProfileFragment, userHashMap)
+    }
+
 
     private fun parseFormIntoData(): UserPreferences {
         return UserPreferences(
@@ -97,7 +129,7 @@ class UpdateProfileFragment : Fragment() {
         }
     }
 
-    private fun bindDataToForm(user: UserPreferences?) {
+    private fun bindDataToForm(user: User?) {
         user?.let {
             binding.apply {
                 etUsername.setText(user.username)
@@ -227,5 +259,13 @@ class UpdateProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val USERNAME = "username"
+        private const val EMAIL = "email"
+        private const val FULL_NAME = "fullName"
+        private const val DATE_OF_BIRTH = "dateOfBirth"
+        private const val ADDRESS = "address"
     }
 }

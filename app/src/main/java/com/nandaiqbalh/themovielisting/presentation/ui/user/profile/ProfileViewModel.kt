@@ -6,12 +6,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.work.*
-import com.nandaiqbalh.themovielisting.data.local.preference.UserPreferences
+import com.nandaiqbalh.themovielisting.data.local.datasource.UserPreferences
 import com.nandaiqbalh.themovielisting.data.local.repository.UserRepository
 import com.nandaiqbalh.themovielisting.util.workers.*
-import com.nandaiqbalh.themovielisting.workers.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -21,6 +21,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val repository: UserRepository, @ApplicationContext application: Context): ViewModel() {
+
+
+    fun getUserDetail(fragment: Fragment) {
+        repository.getUserDetail(fragment)
+    }
+
+    fun updateProfile(fragment: Fragment, userHashMap: HashMap<String, Any>) {
+        repository.updateProfile(fragment, userHashMap)
+    }
 
     fun getUser(): LiveData<UserPreferences> {
         return repository.getUser().asLiveData()

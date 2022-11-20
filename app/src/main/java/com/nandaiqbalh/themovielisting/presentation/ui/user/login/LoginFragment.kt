@@ -2,6 +2,7 @@ package com.nandaiqbalh.themovielisting.presentation.ui.user.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nandaiqbalh.themovielisting.R
+import com.nandaiqbalh.themovielisting.data.network.firebase.model.User
 import com.nandaiqbalh.themovielisting.databinding.FragmentLoginBinding
 import com.nandaiqbalh.themovielisting.presentation.ui.movie.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +39,10 @@ class LoginFragment : Fragment() {
 
         isUserLoggedIn()
 
-        binding.btnLogin.setOnClickListener { checkLogin() }
+        binding.btnLogin.setOnClickListener {
+            signIn()
+            checkLogin()
+        }
 
         binding.tvRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -48,23 +53,20 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkLogin() {
+        val isLoginSuccess = viewModel.isLoginSuccess()
+        if (isLoginSuccess) {
+            navigateToHome()
+            viewModel.setUserLogin(true)
+        }
+    }
+
+    private fun signIn() {
         if (validateInput()) {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
 
-            viewModel.getUser().observe(viewLifecycleOwner) { user ->
-                if (user.username == username && user.password == password) {
-                    navigateToHome()
-                    setLoginState("Login Success!")
-                    viewModel.setUserLogin(true)
-                } else {
-                    setLoginState("Wrong validation!")
-                }
-            }
+            viewModel.signInFirebase(username, password)
         }
-    }
-    private fun setLoginState(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun isUserLoggedIn() {
@@ -91,17 +93,22 @@ class LoginFragment : Fragment() {
         return isValid
     }
 
-    private fun navigateToHome() {
+    fun navigateToHome(user: User? = null) {
+        viewModel.setUserLogin(true)
+
         val intent = Intent(requireContext(), HomeActivity::class.java).apply {
+            putExtra(EXTRA_USERNAME, user?.username)
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         }
-
         startActivity(intent)
         activity?.finish()
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val EXTRA_USERNAME = "extra_username"
     }
 }

@@ -2,9 +2,9 @@ package com.nandaiqbalh.themovielisting.data.network.service
 
 import com.nandaiqbalh.themovielisting.BuildConfig
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.nandaiqbalh.themovielisting.data.network.model.detail.DetailMovie
-import com.nandaiqbalh.themovielisting.data.network.model.popular.Popular
-import com.nandaiqbalh.themovielisting.data.network.model.toprated.TopRated
+import com.nandaiqbalh.themovielisting.data.network.movie.model.detail.DetailMovie
+import com.nandaiqbalh.themovielisting.data.network.movie.model.popular.Popular
+import com.nandaiqbalh.themovielisting.data.network.movie.model.toprated.TopRated
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
